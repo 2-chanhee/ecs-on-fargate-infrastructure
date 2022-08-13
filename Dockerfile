@@ -18,4 +18,5 @@ COPY --from=builder /app ./
 ## application 실행
 CMD [ "node", "dist/main" ]
 
-
+# 앞포트: host 포트번호, 뒷포트: 컨테이너 포트번호
+# docker run -p 3000:80 nestjs-docker
