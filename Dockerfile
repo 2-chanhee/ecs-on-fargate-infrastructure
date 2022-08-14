@@ -18,5 +18,12 @@ COPY --from=builder /app ./
 ## application 실행
 CMD [ "node", "dist/main" ]
 
+# ECR push 
+# 1. aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin <iam account>.dkr.ecr.ap-northeast-2.amazonaws.com
+# 2. docker build -t nestjs-docker . (미리 해도 상관없음)
+# 3. docker tag nestjs-docker:latest <iam account>.dkr.ecr.ap-northeast-2.amazonaws.com/nestjs-docker:latest
+# 4. docker push <iam account>.dkr.ecr.ap-northeast-2.amazonaws.com/nestjs-docker:latest
+
+# run docker on local
 # 앞포트: host 포트번호, 뒷포트: 컨테이너 포트번호
 # docker run -p 3000:80 nestjs-docker
