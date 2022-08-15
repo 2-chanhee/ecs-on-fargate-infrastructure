@@ -25,5 +25,7 @@ CMD [ "node", "dist/main" ]
 # 4. docker push <iam account>.dkr.ecr.ap-northeast-2.amazonaws.com/nestjs-docker:latest
 
 # run docker on local
-# 앞포트: host 포트번호, 뒷포트: 컨테이너 포트번호
-# docker run -p 3000:80 nestjs-docker
+# docker run -p <container port number>:<host port number>/<protocol> [ImageName]
+# docker run -p 3000:3000 nestjs-docker
+
+# docker build --platform=linux/amd64 -t nestjs-docker-amd64 .
