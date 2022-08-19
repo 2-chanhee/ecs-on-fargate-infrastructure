@@ -20,7 +20,7 @@ CMD [ "node", "dist/main" ]
 
 # ECR push 
 # 1. aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin <iam account>.dkr.ecr.ap-northeast-2.amazonaws.com
-# 2. docker build -t nestjs-docker . (미리 해도 상관없음)
+# 2. docker build --platform=linux/amd64 -t nestjs-docker-amd64 .
 # 3. docker tag nestjs-docker:latest <iam account>.dkr.ecr.ap-northeast-2.amazonaws.com/nestjs-docker:latest
 # 4. docker push <iam account>.dkr.ecr.ap-northeast-2.amazonaws.com/nestjs-docker:latest
 
@@ -28,4 +28,8 @@ CMD [ "node", "dist/main" ]
 # docker run -p <container port number>:<host port number>/<protocol> [ImageName]
 # docker run -p 3000:3000 nestjs-docker
 
+# 로컬에서 테스트 할 때
+# docker build -t nestjs-docker .
+
+# ERC에 push할 때 (os를 맞춰줘야 해서 amd64로 빌드)
 # docker build --platform=linux/amd64 -t nestjs-docker-amd64 .
