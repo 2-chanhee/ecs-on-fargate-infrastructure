@@ -15,6 +15,8 @@ FROM node:16-alpine
 WORKDIR /app
 ## Step 1의 builder에서 build된 프로젝트를 가져온다
 COPY --from=builder /app ./
+## 도커 컨네이터가 사용할 포트 설정
+EXPOSE 80
 ## application 실행
 CMD [ "node", "dist/main" ]
 
@@ -26,10 +28,13 @@ CMD [ "node", "dist/main" ]
 
 # run docker on local
 # docker run -p <container port number>:<host port number>/<protocol> [ImageName]
-# docker run -p 3000:3000 nestjs-docker
+# docker run -p 80:3000 nestjs-docker
 
 # 로컬에서 테스트 할 때
 # docker build -t nestjs-docker .
 
-# ERC에 push할 때 (os를 맞춰줘야 해서 amd64로 빌드)
+# mac 환경에서 빌드할 시
 # docker build --platform=linux/amd64 -t nestjs-docker-amd64 .
+
+# image 삭제
+# docker rmi <imageName>
