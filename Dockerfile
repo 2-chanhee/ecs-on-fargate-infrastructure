@@ -15,8 +15,6 @@ FROM node:16-alpine
 WORKDIR /app
 ## Step 1의 builder에서 build된 프로젝트를 가져온다
 COPY --from=builder /app ./
-## 도커 컨네이터가 사용할 포트 설정
-EXPOSE 80
 ## application 실행
 CMD [ "node", "dist/main" ]
 
@@ -38,3 +36,31 @@ CMD [ "node", "dist/main" ]
 
 # image 삭제
 # docker rmi <imageName>
+
+
+
+## AWS setting
+
+# 1. 보안 그룹 생성
+# 인바운드 container port 80, 3000 허용
+
+# 2. Application Load Balancer
+# public subnet (2a, 2c)
+# 위에서 생성한 보안그룹 선택
+# Listener HTTP port 80
+# 생성 후 Target Group과 listener 삭제 (클러스터 생성 시 다시 만들어진다.)
+
+# 3. 작업 정의 (Fargate)
+# ECR 이미지 선택 후 Port mapping: 3000
+# 운영체제 Linux
+
+# 4. 클러스터 서비스 생성 (클러스터 먼저 생성하고 해야 함)
+# 클러스터 서브넷: 2a, 2c
+# 자동 할당 퍼블릭 IP: ENABLE
+# Application Load Balancer 선택
+    # 로드 밸런서에 추가 -> 새로 생성 -> Listener HTTP port 80
+    # health check url: /
+
+# 5. ALB public DNS로 접근
+
+# TODO health check failed 해결
