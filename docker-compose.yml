@@ -20,7 +20,3 @@ services:
             - 3306:3306
         restart: always
         environment:
-            MYSQL_USERNAME: admin
-            MYSQL_PASSWORD: vkcjsMmvp8!
-            MYSQL_DATABASE: db-test
-            MYSQL_HOST: db-test.cc7044mia35c.ap-northeast-2.rds.amazonaws.com

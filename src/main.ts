@@ -5,9 +5,10 @@ import {Logger} from 'nestjs-pino';
 import express from 'express';
 
 import {AppModule as CommonModule} from './common/app.module';
+import {AppModule as UserModule} from './user/app.module';
 
 @Module({
-    imports: [CommonModule],
+    imports: [CommonModule, UserModule],
     controllers: [],
     providers: []
 })
