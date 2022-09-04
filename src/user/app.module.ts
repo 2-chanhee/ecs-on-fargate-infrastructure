@@ -17,7 +17,7 @@ import {TypeOrmConfigService} from '../lib/typeorm';
             envFilePath: '.env',
             validationSchema: Joi.object({
                 MYSQL_USERNAME: Joi.string().required(),
-                MYSQL_PASSWORD: Joi.string().required(),
+                MYSQL_ROOT_PASSWORD: Joi.string().required(),
                 MYSQL_DATABASE: Joi.string().required(),
                 MYSQL_HOST: Joi.string().required()
             }),
