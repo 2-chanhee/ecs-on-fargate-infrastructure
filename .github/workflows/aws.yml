@@ -36,7 +36,7 @@ jobs:
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
                   ECR_REPOSITORY: app
-                  IMAGE_TAG: $(yarn version | grep version | awk -F: '{ print $2 }' | sed '/^$/d' | tr -d)
+                  IMAGE_TAG: ${{ NESTJS_VERSION }}
               run: |
                   # Build a docker container and
                   # push it to ECR so that it can
