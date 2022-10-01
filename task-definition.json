@@ -4,7 +4,7 @@
     "networkMode": "awsvpc",
     "containerDefinitions": [
         {
-            "name": "[your container name]",
+            "name": "test-container",
             "image": "[your ECR image and tag]",
             "portMappings": [
                 {
