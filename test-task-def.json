@@ -1,0 +1,52 @@
+{
+    "requiresCompatibilities": ["FARGATE"],
+    "inferenceAccelerators": [],
+    "containerDefinitions": [
+        {
+            "name": "test-container",
+            "image": "281400526017.dkr.ecr.ap-northeast-2.amazonaws.com/test-app:cdece92e8a20ecb2461a9e8296458f0a4eb0184a",
+            "resourceRequirements": null,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": "3000",
+                    "protocol": "tcp"
+                }
+            ],
+            "environment": null,
+            "environmentFiles": [],
+            "secrets": null,
+            "mountPoints": null,
+            "volumesFrom": null,
+            "hostname": null,
+            "user": null,
+            "workingDirectory": null,
+            "extraHosts": null,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/test-task-def",
+                    "awslogs-region": "ap-northeast-2",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "ulimits": null,
+            "dockerLabels": null,
+            "dependsOn": null,
+            "repositoryCredentials": {
+                "credentialsParameter": ""
+            }
+        }
+    ],
+    "volumes": [],
+    "networkMode": "awsvpc",
+    "memory": "512",
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::281400526017:role/ecsTaskExecutionRole",
+    "family": "test-task-def",
+    "taskRoleArn": "",
+    "runtimePlatform": {
+        "operatingSystemFamily": "LINUX"
+    },
+    "tags": []
+}
