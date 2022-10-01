@@ -1,7 +1,7 @@
 on:
     push:
         branches:
-            - master
+            - env2
 
 name: Deploy to Amazon ECS
 
