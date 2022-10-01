@@ -1,6 +1,6 @@
 import {Test, TestingModule} from '@nestjs/testing';
 import {INestApplication} from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 
 import {AppModule} from './../src/common/app.module';
 
@@ -16,7 +16,7 @@ describe('AppController (e2e)', () => {
         await app.init();
     });
 
-    it('/status (GET)', () => {
-        return request(app.getHttpServer()).get('/status').expect(200).expect('healthy');
+    it('/common/status (GET)', () => {
+        return request(app.getHttpServer()).get('/common/status').expect(200).expect('healthy');
     });
 });
