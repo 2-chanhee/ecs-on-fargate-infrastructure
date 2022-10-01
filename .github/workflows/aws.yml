@@ -1,7 +1,7 @@
 on:
     push:
         branches:
-            - env3
+            - master
 
 name: Deploy to Amazon ECS
 
@@ -13,6 +13,9 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v1
+
+            - name: Branch name
+              run: echo running on branch ${GITHUB_REF##*/}
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
