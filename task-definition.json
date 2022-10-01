@@ -1,22 +1,52 @@
 {
-    "family": "[your task definition name]",
-    "executionRoleArn": "[your task definition excution role arn]",
-    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "inferenceAccelerators": [],
     "containerDefinitions": [
         {
-            "name": "[your container name]",
-            "image": "[your ECR image and tag]",
+            "name": "test-container",
+            "image": "281400526017.dkr.ecr.ap-northeast-2.amazonaws.com/test-app:cdece92e8a20ecb2461a9e8296458f0a4eb0184a",
+            "resourceRequirements": null,
+            "essential": true,
             "portMappings": [
                 {
-                    "containerPort": 8080,
-                    "hostPort": 8080,
+                    "containerPort": "3000",
                     "protocol": "tcp"
                 }
             ],
-            "essential": true
+            "environment": null,
+            "environmentFiles": [],
+            "secrets": null,
+            "mountPoints": null,
+            "volumesFrom": null,
+            "hostname": null,
+            "user": null,
+            "workingDirectory": null,
+            "extraHosts": null,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/test-task-def",
+                    "awslogs-region": "ap-northeast-2",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "ulimits": null,
+            "dockerLabels": null,
+            "dependsOn": null,
+            "repositoryCredentials": {
+                "credentialsParameter": ""
+            }
         }
     ],
-    "requiresCompatibilities": ["FARGATE"],
-    "cpu": "512",
-    "memory": "1024"
+    "volumes": [],
+    "networkMode": "awsvpc",
+    "memory": "512",
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::281400526017:role/ecsTaskExecutionRole",
+    "family": "test-task-def",
+    "taskRoleArn": "",
+    "runtimePlatform": {
+        "operatingSystemFamily": "LINUX"
+    },
+    "tags": []
 }
