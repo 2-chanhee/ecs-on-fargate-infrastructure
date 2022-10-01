@@ -61,6 +61,8 @@ CMD [ "node", "dist/main" ]
 # 자동 할당 퍼블릭 IP: ENABLE
 # Application Load Balancer 선택
     # 로드 밸런서에 추가 -> 새로 생성 -> Listener HTTP port 9999 
-    # health check url: /
+    # health check url: /common/status
 
 # 5. ALB public DNS로 접근
+
+# task-definition.json 로컬에 생성, ecs->task-definition json 복붙

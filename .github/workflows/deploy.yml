@@ -1,25 +1,41 @@
+name: Deploy to Amazon ECS
+
 on:
     push:
-        branches:
-            - test
+        branches: ['branch_name']
 
-name: Deploy to Amazon ECS
+env:
+    AWS_REGION: ap-northeast-2 # set this to your preferred AWS region, e.g. us-west-1
+    ECR_REPOSITORY: test-app # set this to your Amazon ECR repository name
+
+permissions:
+    contents: read
 
 jobs:
     deploy:
         name: Deploy
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-latest
+        environment: production
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
+
+            - name: Create .env file
+              run: |
+                  touch .env
+                  echo MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }} >> .env
+                  echo MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} >> .env
+                  echo MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} >> .env
+                  echo MYSQL_HOST=${{ secrets.MYSQL_HOST }} >> .env
+                  cat .env
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
               with:
                   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: ap-northeast-2
+                  aws-region: ${{ env.AWS_REGION }} #TODO: to git secret
 
             - name: Login to Amazon ECR
               id: login-ecr
@@ -29,8 +45,11 @@ jobs:
               id: build-image
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                  ECR_REPOSITORY: <ecr-repository>
-                  IMAGE_TAG: latest
+                  IMAGE_TAG: ${{ github.sha }}
+                  # TODO env 여기로 이전
+                  # ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                  # ECR_REPOSITORY: test-app
+                  # MAGE_TAG: ${{ github.sha }}
               run: |
                   # Build a docker container and
                   # push it to ECR so that it can
@@ -38,21 +57,19 @@ jobs:
                   docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                   echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-            - name: Download task definition
-              run: |
-                  aws ecs describe-task-definition --task-definition taskdef --query taskDefinition > task-definition.json
+
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
               uses: aws-actions/amazon-ecs-render-task-definition@v1
               with:
                   task-definition: task-definition.json
-                  container-name: <container-name>
+                  container-name: test-container
                   image: ${{ steps.build-image.outputs.image }}
 
             - name: Deploy Amazon ECS task definition
               uses: aws-actions/amazon-ecs-deploy-task-definition@v1
               with:
                   task-definition: ${{ steps.task-def.outputs.task-definition }}
-                  service: <service-name>
-                  cluster: <cluster-name>
+                  service: test-service
+                  cluster: test-cluster
                   wait-for-service-stability: true
