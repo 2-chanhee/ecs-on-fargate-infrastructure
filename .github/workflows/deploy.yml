@@ -2,8 +2,9 @@ name: Deploy to Amazon ECS
 
 on:
     push:
-        branches: ['branch_name']
+        branches: ['branch_name'] #TODO master, dev로 변경
 
+#TODO env -> git secret
 env:
     AWS_REGION: ap-northeast-2 # set this to your preferred AWS region, e.g. us-west-1
     ECR_REPOSITORY: test-app # set this to your Amazon ECR repository name
@@ -45,7 +46,7 @@ jobs:
               id: build-image
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                  IMAGE_TAG: ${{ github.sha }}
+                  IMAGE_TAG: ${{ github.sha }} #TODO 버전관리 어떻게 할지 결정
                   # TODO env 여기로 이전
                   # ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
                   # ECR_REPOSITORY: test-app
@@ -64,12 +65,12 @@ jobs:
               with:
                   task-definition: task-definition.json
                   container-name: test-container
-                  image: ${{ steps.build-image.outputs.image }}
+                  image: ${{ steps.build-image.outputs.image }} # 위에서 빌드한 결과의 image를 가져다 씀
 
             - name: Deploy Amazon ECS task definition
               uses: aws-actions/amazon-ecs-deploy-task-definition@v1
               with:
-                  task-definition: ${{ steps.task-def.outputs.task-definition }}
+                  task-definition: ${{ steps.task-def.outputs.task-definition }} # 위에서 사용한 결과를 가져다 씀
                   service: test-service
                   cluster: test-cluster
                   wait-for-service-stability: true
