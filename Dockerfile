@@ -37,19 +37,18 @@ CMD [ "node", "dist/main" ]
 # image 삭제
 # docker rmi <imageName>
 
-
-
-## AWS setting
+## AWS setting 
 
 # 1. 보안 그룹 생성
-# 인바운드 container port 3000, 9999 허용
-# 3000: docker port
-# 9999: alb port
+# - ecs sg
+# 인바운드 3000 허용
+# - alb sg
+# 인바운드 80, 443 허용
 
 # 2. Application Load Balancer
 # public subnet (2a, 2c)
 # 위에서 생성한 보안그룹 선택
-# Listener HTTP port 9999
+# Listener HTTP port 80
 # 생성 후 Target Group과 listener 삭제 (클러스터 생성 시 다시 만들어진다.)
 
 # 3. 작업 정의 (Fargate)
@@ -60,7 +59,7 @@ CMD [ "node", "dist/main" ]
 # 클러스터 서브넷: 2a, 2c
 # 자동 할당 퍼블릭 IP: ENABLE
 # Application Load Balancer 선택
-    # 로드 밸런서에 추가 -> 새로 생성 -> Listener HTTP port 9999 
+    # 로드 밸런서에 추가 -> 새로 생성 -> Listener HTTP port 80 
     # health check url: /common/status
 
 # 5. ALB public DNS로 접근
