@@ -3,8 +3,8 @@
     "inferenceAccelerators": [],
     "containerDefinitions": [
         {
-            "name": "test-container",
-            "image": "281400526017.dkr.ecr.ap-northeast-2.amazonaws.com/test-app:cdece92e8a20ecb2461a9e8296458f0a4eb0184a",
+            "name": "test1234",
+            "image": "281400526017.dkr.ecr.ap-northeast-2.amazonaws.com/test-app:61ac0c1335e370a34dbec48850486ee5f7c81eb4",
             "resourceRequirements": null,
             "essential": true,
             "portMappings": [
@@ -25,7 +25,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/test-task-def",
+                    "awslogs-group": "/ecs/test-def1",
                     "awslogs-region": "ap-northeast-2",
                     "awslogs-stream-prefix": "ecs"
                 }
