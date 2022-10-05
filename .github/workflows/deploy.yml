@@ -59,18 +59,18 @@ jobs:
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                   echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-            # - name: Fill in the new image ID in the Amazon ECS task definition
-            #   id: task-def
-            #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-            #   with:
-            #       task-definition: task-definition.json
-            #       container-name: test-container
-            #       image: ${{ steps.build-image.outputs.image }} # 위에서 빌드한 결과의 image를 가져다 씀
+            - name: Fill in the new image ID in the Amazon ECS task definition
+              id: task-def
+              uses: aws-actions/amazon-ecs-render-task-definition@v1
+              with:
+                  task-definition: task-definition.json
+                  container-name: test-container
+                  image: ${{ steps.build-image.outputs.image }} # 위에서 빌드한 결과의 image를 가져다 씀
 
-            # - name: Deploy Amazon ECS task definition
-            #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-            #   with:
-            #       task-definition: ${{ steps.task-def.outputs.task-definition }} # 위에서 사용한 결과를 가져다 씀
-            #       service: test-service
-            #       cluster: test-cluster
-            #       wait-for-service-stability: true
+            - name: Deploy Amazon ECS task definition
+              uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+              with:
+                  task-definition: ${{ steps.task-def.outputs.task-definition }} # 위에서 사용한 결과를 가져다 씀
+                  service: test-service
+                  cluster: test-cluster
+                  wait-for-service-stability: true
