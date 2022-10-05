@@ -3,7 +3,7 @@
     "inferenceAccelerators": [],
     "containerDefinitions": [
         {
-            "name": "test-1234",
+            "name": "test1234",
             "image": "281400526017.dkr.ecr.ap-northeast-2.amazonaws.com/test-app:61ac0c1335e370a34dbec48850486ee5f7c81eb4",
             "resourceRequirements": null,
             "essential": true,
