@@ -1,4 +1,4 @@
-### nestjs-docker-boilerplate
+### ECS On Fargate Infrastructure
 
 #### deploying an application to AWS Fargate with Elastic Container Service and Application Load Balancer.
 
