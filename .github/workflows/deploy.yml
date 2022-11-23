@@ -38,6 +38,10 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ${{ env.AWS_REGION }} #TODO: to git secret
 
+            # 패키지 버전을 사용하는 방법
+            # - name: Save Package Version For Tag
+            #     run: node -p '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
+
             - name: Login to Amazon ECR
               id: login-ecr
               uses: aws-actions/amazon-ecr-login@v1
@@ -66,6 +70,7 @@ jobs:
                   task-definition: task-definition.json
                   container-name: test1234
                   image: ${{ steps.build-image.outputs.image }} # 위에서 빌드한 결과의 image를 가져다 씀
+                  # image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ env.PACKAGE_VERSION }} > ECR tag name은 패키지의 version과 동일
 
             - name: Deploy Amazon ECS task definition
               uses: aws-actions/amazon-ecs-deploy-task-definition@v1
